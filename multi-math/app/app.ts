@@ -5,6 +5,7 @@ function startGame() {
     let playerName: string|undefined = getInputValue('playername');
     logPlayerName(playerName);
     postScores(100, playerName);
+    postScores(-5, playerName);
 }
 
 function logPlayerName(name: string = 'Multi-Math player'): void {
@@ -18,6 +19,14 @@ function getInputValue(elementID: string): string|undefined {
 }
 
 function postScores(score: number, playerName: string = 'Multi-Math Player'): void {
+    let logger: (value: string) => void;
+
+    if(score<0) {
+        logger = logError;
+    }
+    else logger = logMessage;
+
+    logger(`Score - ${score}`);
     const scoreElement = document.getElementById('postedScores');
     scoreElement!.innerText = `${score} - ${playerName}`;
 }
@@ -26,3 +35,7 @@ document.getElementById('startGame')!.addEventListener('click', startGame);
 
 const logMessage = (message: string) => console.log(message);
 logMessage('Welcome to Multi-Math! Starting new game...');
+
+function logError(error: string): void {
+    console.error(error);
+}
