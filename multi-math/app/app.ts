@@ -1,41 +1,18 @@
-function startGame() {
-    var messagesElement = document.getElementById('messages');
-    messagesElement!.innerText = 'Welcome to Multi-Math! Starting new game...'
+/// <reference path="player.ts" />
+/// <reference path="game.ts" />
 
-    let playerName: string|undefined = getInputValue('playername');
-    logPlayerName(playerName);
-    postScores(100, playerName);
-    postScores(-5, playerName);
-}
+let newGame: Game;
 
-function logPlayerName(name: string = 'Multi-Math player'): void {
-    console.log(`New player ${name} starting the game`);
-}
+document.getElementById('startGame')!.addEventListener('click', () => {
+    const player: Player = new Player();
+    player.name = Utility.getInputValue('playername');
 
-function getInputValue(elementID: string): string|undefined {
-    const inputElement: HTMLInputElement = <HTMLInputElement>document.getElementById(elementID);
-    if(inputElement.value==='') return undefined;
-    else return inputElement.value;
-}
+    const problemCount: number = Number(Utility.getInputValue('problemCount'));
+    const factor: number = Number(Utility.getInputValue('factor'));
 
-function postScores(score: number, playerName: string = 'Multi-Math Player'): void {
-    let logger: (value: string) => void;
+    newGame = new Game(player, problemCount, factor);
+    newGame.displayGame();
 
-    if(score<0) {
-        logger = logError;
-    }
-    else logger = logMessage;
-
-    logger(`Score - ${score}`);
-    const scoreElement = document.getElementById('postedScores');
-    scoreElement!.innerText = `${score} - ${playerName}`;
-}
-
-document.getElementById('startGame')!.addEventListener('click', startGame);
-
-const logMessage = (message: string) => console.log(message);
-logMessage('Welcome to Multi-Math! Starting new game...');
-
-function logError(error: string): void {
-    console.error(error);
-}
+    const calcScoreElement:HTMLElement = document.getElementById('calculate')!;
+    calcScoreElement.addEventListener('click', () => newGame.calculateScore());
+})
