@@ -1,10 +1,11 @@
-/// <reference path="utility.ts" />
-/// <reference path="result.ts" />
-/// <reference path="player.ts" />
-/// <reference path="scoreboard.ts" />
+import { Result } from './result';
+import { Player } from './player';
+import { Scoreboard as ResultPanel } from './scoreboard';
+import { getValue } from './utility';
 
-class Game {
-    private scoreboard: Scoreboard = new Scoreboard();
+
+export class Game {
+    private scoreboard: ResultPanel = new ResultPanel();
 
     constructor(public player: Player, public problemCount: number, public factor: number) {
 
@@ -31,30 +32,30 @@ class Game {
     calculateScore(): void {
 
         let score: number = 0;
-    
+
         // loop through the text boxes and calculate the number that are correct
         for (let i = 1; i <= this.problemCount; i++) {
-          const answer: number = Number(Utility.getInputValue('answer' + i));
-          if (i * this.factor === answer) {
-            score++;
-          }
+            const answer: number = Number(getValue('answer' + i));
+            if (i * this.factor === answer) {
+                score++;
+            }
         }
-    
+
         // create a new result object to pass to the scoreboard
         const result: Result = {
-          playerName: this.player.name,
-          score: score,
-          problemCount: this.problemCount,
-          factor: this.factor
+            playerName: this.player.name,
+            score: score,
+            problemCount: this.problemCount,
+            factor: this.factor
         };
-    
+
         // add the result and update the scoreboard
         this.scoreboard.addResult(result);
         this.scoreboard.updateScoreboard();
-    
+
         // disable the calculate score button
         document.getElementById('calculate')!.setAttribute('disabled', 'true');
-      }  
+    }
 }
 
 
