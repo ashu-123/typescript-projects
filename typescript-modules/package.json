@@ -1,0 +1,17 @@
+{
+  "name": "typescript-modules",
+  "version": "1.0.0",
+  "description": "Learning typescript-modules",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node node_modules/esmodules-dev-server"
+  },
+  "author": "Ashutosh Mishra",
+  "license": "ISC",
+  "devDependencies": {
+    "esmodules-dev-server": "^0.0.4",
+    "typescript": "^5.3.3"
+  }
+}
